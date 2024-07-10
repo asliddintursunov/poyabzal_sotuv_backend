@@ -1,0 +1,11 @@
+flask
+python-dotenv
+psycopg2-binary
+Flask-CORS
+markdownify
+markdown2
+bcrypt
+jwt
+PyJWT
+Flask-JWT-Extended
+flask-sqlalchemy
