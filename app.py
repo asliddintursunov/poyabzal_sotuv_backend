@@ -10,6 +10,8 @@ from jwt import DecodeError
 from api.auth.login import login_bp, login_route
 from api.auth.register import register_bp, register_route
 from api.products.add_product import add_product_bp, add_product_route
+from api.products.get_product import get_product_bp, get_product_route
+from api.settings.update_profile import update_profile_bp, update_profile_route
 
 def create_app():
     load_dotenv()
@@ -33,12 +35,16 @@ def create_app():
     login_route()
     register_route()
     add_product_route()
+    get_product_route()
+    update_profile_route()
     
     
     # APIs
     app.register_blueprint(login_bp)
     app.register_blueprint(register_bp)
     app.register_blueprint(add_product_bp)
+    app.register_blueprint(get_product_bp)
+    app.register_blueprint(update_profile_bp)
     
     # Callback function to check if a JWT exists in the redis blocklist
     @jwt.token_in_blocklist_loader

@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt
 from models import Products
 from extensions import db
 
-add_product_bp = Blueprint("add_product_bp", __name__)
+add_product_bp = Blueprint("add_product", __name__)
 
 def add_product_route():
     @add_product_bp.post("/add-product")

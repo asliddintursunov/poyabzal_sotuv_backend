@@ -1,5 +1,6 @@
 from extensions import db
 from sqlalchemy.dialects.postgresql import BYTEA
+from datetime import datetime
 
 class Users(db.Model):
     __tablename__ = "users"
@@ -39,6 +40,7 @@ class Products(db.Model):
     product_color = db.Column(db.String(31))
     product_sold_price = db.Column(db.Integer, nullable=False)
     product_get_price = db.Column(db.Integer, nullable=False)
+    product_sold_time = db.Column(db.DateTime, nullable=False, default=datetime.now)
     
     seller_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     

@@ -5,7 +5,7 @@ import bcrypt
 from flask import Blueprint, request, jsonify
 from helpers.auth_helper import check_username_exists, regex_validation
 
-register_bp = Blueprint("register_bp", __name__)
+register_bp = Blueprint("register", __name__)
 
 def register_route():
     @register_bp.route("/auth/register", methods=["POST"])

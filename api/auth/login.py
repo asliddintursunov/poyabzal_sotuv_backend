@@ -4,7 +4,7 @@ import bcrypt
 from flask_jwt_extended import create_access_token
 from helpers.auth_helper import regex_validation, check_username_exists
 
-login_bp = Blueprint("login_bp", __name__)
+login_bp = Blueprint("login", __name__)
 
 def login_route():
     @login_bp.route("/auth/login", methods=["POST"])
