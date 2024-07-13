@@ -41,6 +41,7 @@ class Products(db.Model):
     product_sold_price = db.Column(db.Integer, nullable=False)
     product_get_price = db.Column(db.Integer, nullable=False)
     product_sold_time = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    product_profit = db.Column(db.Integer, nullable=False)
     
     seller_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     
@@ -50,6 +51,7 @@ class Products(db.Model):
         self.product_color = color
         self.product_sold_price = sold_price
         self.product_get_price = get_price
+        self.product_profit = sold_price - get_price
         self.seller_id = seller_id
     
     def __repr__(self):
