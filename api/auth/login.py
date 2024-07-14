@@ -32,22 +32,33 @@ def login_route():
                                 "id": Users.get_userid(user)
                             }
                             access_token = create_access_token(identity=Users.get_username(user), additional_claims=additional_claims)
-                            # access_token = "This is an access token"
                             return jsonify({
-                                        "message": "Successfully logged in",
+                                        "success": True,
+                                        "message": "Muvafaqiyatli xisobga kirildi",
                                         "username": Users.get_username(user),
                                         "tokens": {
                                             "access_token": access_token,
                                         }
                                     }), 200
                         else:
-                            return f"Incorrect username or password!", 400
+                            return jsonify({
+                                    "success": False,
+                                    "message": "Foydalanuvchi nomi yokida paroli xato"
+                                }), 400
                     else:
-                        return f"Incorrect username or password!", 400 
+                        return jsonify({
+                                    "success": False,
+                                    "message": "Foydalanuvchi nomi yokida paroli xato"
+                                }), 400
                 except Exception as e:
                     return jsonify({
-                            'error': str(e),
-                            'message': 'Error occured during login'
-                        }), 400
+                        "success": False,
+                        'message': "Xisobga kirishda serverda xatolik, qaytadan urunib ko'ring",
+                        'error': str(e)
+                    }), 400
             except:
-                return "Invalid Credentials", 400
+                return jsonify({
+                        "success": False,
+                        'message': "Xisobga kirishda serverda xatolik, qaytadan urunib ko'ring",
+                        'error': str(e)
+                    }), 400

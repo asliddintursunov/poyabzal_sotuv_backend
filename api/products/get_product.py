@@ -10,17 +10,25 @@ def get_product_route():
     @get_product_bp.get("/get-products")
     @jwt_required()
     def get_products():
-        claims = get_jwt()
-        id = claims.get("id")
-        args = request.args
-        date = args.get("date")   
-        frontend_date = datetime.strptime(date, '%m/%d/%Y')
-        
-        products_result = Products.query.filter(Products.product_sold_time >= frontend_date,Products.product_sold_time < frontend_date + timedelta(days=1), Products.seller_id == id).all()
+        try:
+            claims = get_jwt()
+            id = claims.get("id")
+            args = request.args
+            date = args.get("date")   
 
-        products = products_dict(products_result)
-        
-        return jsonify({
-            "date": date,
-            'products': products
-        })
+            frontend_date = datetime.strptime(date, '%m/%d/%Y')
+            
+            products_result = Products.query.filter(Products.product_sold_time >= frontend_date,Products.product_sold_time < frontend_date + timedelta(days=1), Products.seller_id == id).all()
+
+            products = products_dict(products_result)
+            
+            return jsonify({
+                "date": date,
+                'products': products
+            })
+        except Exception as e:
+            print(e)
+            return jsonify({
+                "error": str(e),
+                "message": "Ma'lumotlarni olishda xatolik, keyinroq urunib ko'ring"
+            }), 400

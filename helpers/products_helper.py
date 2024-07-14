@@ -7,12 +7,13 @@ def products_dict(products_arr):
     products = []
     for product in products_arr:
         shoe = {
-            "name": product.product_name,
-            "size": product.product_size,
-            "color": product.product_color,
-            "sold_price": product.product_sold_price,
-            "get_price": product.product_get_price,
-            "sold_time": product.product_sold_time,
+            "product_id": product.product_id,
+            "product_name": product.product_name,
+            "product_size": product.product_size,
+            "product_color": product.product_color,
+            "product_sold_price": product.product_sold_price,
+            "product_get_price": product.product_get_price,
+            "product_sold_time": product.product_sold_time,
         }
         products.append(shoe)
     
@@ -117,8 +118,8 @@ def stats_graph_dict(date_str, id):
         ).all()
         stats = monthly_stats_dict(sold_products)
         
-        yr = date_str.split("/")[0]
-        mnh = date_str.split("/")[1]
+        yr = date_str.split("-")[0]
+        mnh = date_str.split("-")[1]
         stats.update({"date": f"{yr}-{year_months.get(mnh)}"})
         
         result.append(stats)
