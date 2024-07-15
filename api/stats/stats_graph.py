@@ -17,8 +17,8 @@ def stats_graph_route():
         id = claims.get("id")
         date_str = req_args.get("date")
         
-        products = stats_graph_dict(date_str=date_str, id=id)
+        sixMonthStats = stats_graph_dict(date_str=date_str, id=id)
         
         return jsonify({
-            "products": products
+            "sixMonthStats": sixMonthStats
         })

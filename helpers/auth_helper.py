@@ -12,7 +12,7 @@ def regex_validation(username, password):
     }
     
     if not re.match(REGEX_PATTERN["username"], username):
-            return "Invalid username"
+        return "Invalid username"
     elif not re.match(REGEX_PATTERN["password"], password):
         return "Invalid password"
     

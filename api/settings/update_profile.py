@@ -4,36 +4,36 @@ from models import Users
 from helpers.auth_helper import check_username_exists, regex_validation
 import bcrypt
 from extensions import db
+import re
 
 update_profile_bp = Blueprint("update_profile", __name__)
 
 def update_profile_route():
-    @update_profile_bp.post("/update-profile")
+    @update_profile_bp.patch("/update-profile")
     @jwt_required()
     def update_profile():
         claims = get_jwt()
         id = claims.get("id")
         json_data = request.get_json()
-        try:
-            username = json_data.get("username")
-            new_password = json_data.get("new_password")
-            old_password = json_data.get("old_password")
-        except Exception as e:
-            return jsonify({
-                "error": "Invalid Inputs",
-                "message": str(e)
-            })
+        username = json_data.get("username", None)
+        new_password = json_data.get("new_password", None)
+        old_password = json_data.get("old_password", None)
         
         try:
-            update_validation = regex_validation(username=username,  password=new_password)
-            if update_validation:
-                return update_validation, 400
-            
-            is_username_exists = check_username_exists(username)
-            if is_username_exists:
-                return jsonify({
-                    "message": f"{username} nomli foydalanuvchi mavjud, boshqa nom tanlang"
-                })
+            if username:
+                update_validation = regex_validation(username=username,  password=new_password)
+                if update_validation:
+                    return update_validation, 400
+                
+                is_username_exists = check_username_exists(username)
+                if is_username_exists:
+                    return jsonify({
+                        "message": f"{username} nomli foydalanuvchi mavjud, boshqa nom tanlang"
+                    }), 400
+            else:
+                password_regex = r"^[a-zA-Z0-9]{8,20}$"
+                if not re.match(password_regex, new_password):
+                    return "Invalid password"
                 
             user = Users.query.filter_by(user_id = id).first()
             if bcrypt.checkpw(
@@ -45,12 +45,12 @@ def update_profile_route():
                 db.session.commit()
                 return jsonify({
                     "message": "Profil muvaffaqiyatli  yangilandi"
-                })
+                }), 200
             else:
                 return jsonify({"message": f"{old_password} paroli sizning parololingiz bilan mos kelmadi, qaytadan urunb ko'ring."}), 400
             
         except Exception as e:
             return jsonify({
-                    "error": "Error while fetching!",
-                    "message": str(e)
+                    "error": str(e),
+                    "message": "Error: Xisobni yangilashda xatolik"
                 }), 400

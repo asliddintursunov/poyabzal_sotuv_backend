@@ -19,7 +19,8 @@ class Users(db.Model):
         return f"<User {self.user_name!r}>"
     
     def update_data(self, username, password):
-        self.user_name = username
+        if username:
+            self.user_name = username
         self.user_password = password
     
     def get_userid(self):

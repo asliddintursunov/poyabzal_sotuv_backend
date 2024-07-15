@@ -12,6 +12,7 @@ from api.auth.register import register_bp, register_route
 from api.products.add_product import add_product_bp, add_product_route
 from api.products.get_product import get_product_bp, get_product_route
 from api.settings.update_profile import update_profile_bp, update_profile_route
+from api.settings.get_data import get_data_bp, get_data_route
 from api.stats.monthly_stats import montly_stats_bp, montly_stats_route
 from api.stats.stats_graph import stats_graph_bp, stats_graph_route
 
@@ -20,7 +21,7 @@ def create_app():
     app = Flask(__name__)
     
     CORS(app)
-    ACCESS_EXPIRES = timedelta(hours=1)
+    ACCESS_EXPIRES = timedelta(weeks=52)
     jwt.init_app(app)
     jwt_redis_blocklist = redis.StrictRedis(host="localhost", port=6379, db=0, decode_responses=True)
     
@@ -39,6 +40,7 @@ def create_app():
     add_product_route()
     get_product_route()
     update_profile_route()
+    get_data_route()
     montly_stats_route()
     stats_graph_route()
     
@@ -48,6 +50,7 @@ def create_app():
     app.register_blueprint(add_product_bp)
     app.register_blueprint(get_product_bp)
     app.register_blueprint(update_profile_bp)
+    app.register_blueprint(get_data_bp)
     app.register_blueprint(montly_stats_bp)
     app.register_blueprint(stats_graph_bp)
     
