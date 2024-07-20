@@ -22,7 +22,6 @@ def create_app():
     
     CORS(app)
     ACCESS_EXPIRES = timedelta(weeks=52)
-    jwt.init_app(app)
     jwt_redis_blocklist = redis.StrictRedis(host="localhost", port=6379, db=0, decode_responses=True)
     
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
@@ -32,6 +31,7 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     
+    jwt.init_app(app)
     db.init_app(app)
     
     # Routes
