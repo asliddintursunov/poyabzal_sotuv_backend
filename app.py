@@ -1,10 +1,8 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
 from extensions import db #, jwt
-import redis
-from datetime import timedelta
 
 from api.auth.login import login_bp, login_route
 from api.auth.register import register_bp, register_route
