@@ -4,6 +4,8 @@ import bcrypt
 from flask_jwt_extended import create_access_token
 from helpers.auth_helper import regex_validation, check_username_exists
 
+from helpers.decorators import create_token
+
 login_bp = Blueprint("login", __name__)
 
 def login_route():
@@ -28,10 +30,14 @@ def login_route():
                             password.encode('utf-8'), 
                             bytes(Users.get_password(user))
                         ):
-                            additional_claims = {
-                                "id": Users.get_userid(user)
-                            }
-                            access_token = create_access_token(identity=Users.get_username(user), additional_claims=additional_claims)
+                            # additional_claims = {
+                            #     "id": Users.get_userid(user)
+                            # }
+                            # access_token = create_access_token(identity=Users.get_username(user), additional_claims=additional_claims)
+                            access_token = create_token(
+                                username=Users.get_username(user),
+                                user_id=Users.get_userid(user)
+                            )
                             return jsonify({
                                         "success": True,
                                         "message": "Muvafaqiyatli xisobga kirildi",

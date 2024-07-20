@@ -1,20 +1,19 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import get_jwt, jwt_required
 from datetime import datetime, timedelta
 from models import Products
 from helpers.products_helper import monthly_stats_dict
+from helpers.decorators import token_required
 
 montly_stats_bp = Blueprint("montly_stats", __name__)
 
 def montly_stats_route():
     @montly_stats_bp.get("/monthly-stats")
-    @jwt_required()
-    def monthly_stats():
+    @token_required
+    def monthly_stats(jwt_data):
         try:
             req_args = request.args
-            claims = get_jwt()
             
-            id = claims.get("id")
+            id = jwt_data["id"]
             date_str = req_args.get("date")
             print(f"date_str => {date_str}")
             date = datetime.strptime(date_str, "%Y-%m")

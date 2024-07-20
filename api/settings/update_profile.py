@@ -1,19 +1,18 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required, get_jwt
 from models import Users
 from helpers.auth_helper import check_username_exists, regex_validation
 import bcrypt
 from extensions import db
 import re
+from helpers.decorators import token_required
 
 update_profile_bp = Blueprint("update_profile", __name__)
 
 def update_profile_route():
     @update_profile_bp.patch("/update-profile")
-    @jwt_required()
-    def update_profile():
-        claims = get_jwt()
-        id = claims.get("id")
+    @token_required
+    def update_profile(jwt_data):
+        id = jwt_data["id"]
         json_data = request.get_json()
         username = json_data.get("username", None)
         new_password = json_data.get("new_password", None)

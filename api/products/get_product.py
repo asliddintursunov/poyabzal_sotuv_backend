@@ -1,18 +1,17 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required, get_jwt
 from models import Products
 from datetime import datetime, timedelta
 from helpers.products_helper import products_dict
+from helpers.decorators import token_required
 
 get_product_bp = Blueprint("get_product", __name__)
 
 def get_product_route():
     @get_product_bp.get("/get-products")
-    @jwt_required()
-    def get_products():
+    @token_required
+    def get_products(jwt_data):
         try:
-            claims = get_jwt()
-            id = claims.get("id")
+            id = jwt_data["id"]
             args = request.args
             date = args.get("date")   
 

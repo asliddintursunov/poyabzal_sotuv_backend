@@ -1,15 +1,14 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required, get_jwt
 from models import Products
 from extensions import db
+from helpers.decorators import token_required
 
 add_product_bp = Blueprint("add_product", __name__)
 
 def add_product_route():
     @add_product_bp.post("/add-product")
-    @jwt_required()
-    def add_product():
-        claims = get_jwt()
+    @token_required
+    def add_product(jwt_data):
         data = request.get_json()
         
         name = data.get("name")
@@ -17,7 +16,7 @@ def add_product_route():
         color = data.get("color")
         sold_price = int(data.get("sold_price"))
         get_price = int(data.get("get_price"))
-        seller_id = claims.get("id")
+        seller_id = jwt_data["id"]
         
         try:
             new_shoe = Products(name=name, size=size, color=color, sold_price=sold_price, get_price=get_price, seller_id=seller_id)
