@@ -44,6 +44,13 @@ class Products(db.Model):
     product_sold_time = db.Column(db.DateTime, nullable=False, default=datetime.now)
     product_profit = db.Column(db.Integer, nullable=False)
     
+    old_product_name = db.Column(db.String(31))
+    old_product_size = db.Column(db.Integer)
+    old_product_color = db.Column(db.String(31))
+    old_product_sold_price = db.Column(db.Integer)
+    old_product_get_price = db.Column(db.Integer)
+    old_product_sold_time = db.Column(db.DateTime, default=datetime.now)
+    
     seller_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     
     def __init__(self, name, size, color, sold_price, get_price, seller_id):
@@ -54,6 +61,25 @@ class Products(db.Model):
         self.product_get_price = get_price
         self.product_profit = sold_price - get_price
         self.seller_id = seller_id
+    
+    def update_product(
+        self,
+        updated_name, updated_size, updated_color, updated_sold_price, updated_get_price
+    ):
+        self.old_product_name = self.product_name
+        self.old_product_size = self.product_size
+        self.old_product_color = self.product_color
+        self.old_product_sold_price = self.product_sold_price
+        self.old_product_get_price = self.product_get_price
+        
+        self.product_name = updated_name
+        self.product_size = updated_size
+        self.product_color = updated_color
+        self.product_sold_price = updated_sold_price
+        self.product_get_price = updated_get_price
+        
+        self.product_profit = updated_sold_price - updated_get_price
+        print(f"Changed => to {self.product_color} {self.product_name} {self.product_size}")
     
     def __repr__(self):
         return f"<Product {self.product_color!r} {self.product_name!r} {self.product_size!r}>"
