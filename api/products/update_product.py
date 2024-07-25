@@ -15,7 +15,7 @@ def update_product_route():
         
         new_product_name = json_data.get("product_name")
         new_product_color = json_data.get("product_color")
-        new_product_size = int(json_data.get("pruduct_size"))
+        new_product_size = int(json_data.get("product_size"))
         new_product_sold_price = int(json_data.get("product_sold_price"))
         new_product_get_price = int(json_data.get("product_get_price"))
         
@@ -25,7 +25,7 @@ def update_product_route():
                 Products.update_product(
                     self=old_product_data, 
                     updated_name=new_product_name, 
-                    updated_size=new_pruduct_size, 
+                    updated_size=new_product_size, 
                     updated_color=new_product_color, 
                     updated_sold_price=new_product_sold_price, 
                     updated_get_price=new_product_get_price
