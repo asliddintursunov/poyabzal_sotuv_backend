@@ -20,11 +20,11 @@ def delete_product_route():
                 }), 200
             else:
                 return jsonify({
-                    "message": "Poyabzalni yangilashda xatolik"
+                    "message": "Poyabzalni o'chirishda xatolik"
                 }), 400
         except Exception as e:
             db.session.rollback()
             return jsonify({
                 "error": str(e),
-                "message": "Poyabzalni yangilashda xatolik"
+                "message": "Poyabzalni o'chirishda xatolik"
             }), 400
