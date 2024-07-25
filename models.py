@@ -44,6 +44,7 @@ class Products(db.Model):
     product_sold_time = db.Column(db.DateTime, nullable=False, default=datetime.now)
     product_profit = db.Column(db.Integer, nullable=False)
     
+    is_product_changed = db.Column(db.Boolean, default=False)
     old_product_name = db.Column(db.String(31))
     old_product_size = db.Column(db.Integer)
     old_product_color = db.Column(db.String(31))
@@ -79,6 +80,9 @@ class Products(db.Model):
         self.product_color = updated_color
         self.product_sold_price = updated_sold_price
         self.product_get_price = updated_get_price
+        
+        if self.is_product_changed is False:
+            self.is_product_changed = True
         
         print(f"Changed => to {self.product_color} {self.product_name} {self.product_size}")
     

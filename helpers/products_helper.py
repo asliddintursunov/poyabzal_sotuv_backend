@@ -1,6 +1,4 @@
 from datetime import datetime, timedelta
-import calendar
-from dateutil.relativedelta import relativedelta
 from models import Products
 
 def products_dict(products_arr, product_type):
@@ -15,12 +13,12 @@ def products_dict(products_arr, product_type):
                 "product_sold_price": product.product_sold_price,
                 "product_get_price": product.product_get_price,
                 "product_sold_time": product.product_sold_time,
+                "is_product_changed": product.is_product_changed
             }
             products.append(shoe)
     elif product_type == "old":
         for product in products_arr:
-            print("product.old_product_name =>", product.old_product_name)
-            if product.old_product_name is not None:
+            if product.is_product_changed is True:
                 shoe = {
                     "product_id": product.product_id,
                     "product_name": product.old_product_name,
