@@ -49,7 +49,7 @@ class Products(db.Model):
     old_product_color = db.Column(db.String(31))
     old_product_sold_price = db.Column(db.Integer)
     old_product_get_price = db.Column(db.Integer)
-    old_product_sold_time = db.Column(db.DateTime, default=datetime.now)
+    old_product_sold_time = db.Column(db.DateTime)
     
     seller_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     
@@ -71,6 +71,8 @@ class Products(db.Model):
         self.old_product_color = self.product_color
         self.old_product_sold_price = self.product_sold_price
         self.old_product_get_price = self.product_get_price
+        self.old_product_sold_time = datetime.now()
+        self.product_profit = updated_sold_price - updated_get_price
         
         self.product_name = updated_name
         self.product_size = updated_size
@@ -78,7 +80,6 @@ class Products(db.Model):
         self.product_sold_price = updated_sold_price
         self.product_get_price = updated_get_price
         
-        self.product_profit = updated_sold_price - updated_get_price
         print(f"Changed => to {self.product_color} {self.product_name} {self.product_size}")
     
     def __repr__(self):

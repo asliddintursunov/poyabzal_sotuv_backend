@@ -17,13 +17,18 @@ def get_product_route():
 
             frontend_date = datetime.strptime(date, '%m/%d/%Y')
             
-            products_result = Products.query.filter(Products.product_sold_time >= frontend_date,Products.product_sold_time < frontend_date + timedelta(days=1), Products.seller_id == id).all()
+            curr_products_result = Products.query.filter(Products.product_sold_time >= frontend_date,Products.product_sold_time < frontend_date + timedelta(days=1), Products.seller_id == id).all()
+            
+            old_products_result = Products.query.filter(Products.old_product_sold_time >= frontend_date,Products.old_product_sold_time < frontend_date + timedelta(days=1), Products.seller_id == id).all()
 
-            products = products_dict(products_result)
+
+            curr_products = products_dict(curr_products_result, product_type="curr")
+            old_products = products_dict(old_products_result, product_type="old")
             
             return jsonify({
                 "date": date,
-                'products': products
+                'curr_products': curr_products,
+                "old_products": old_products
             })
         except Exception as e:
             print(e)

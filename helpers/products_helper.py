@@ -3,19 +3,36 @@ import calendar
 from dateutil.relativedelta import relativedelta
 from models import Products
 
-def products_dict(products_arr):
+def products_dict(products_arr, product_type):
     products = []
-    for product in products_arr:
-        shoe = {
-            "product_id": product.product_id,
-            "product_name": product.product_name,
-            "product_size": product.product_size,
-            "product_color": product.product_color,
-            "product_sold_price": product.product_sold_price,
-            "product_get_price": product.product_get_price,
-            "product_sold_time": product.product_sold_time,
-        }
-        products.append(shoe)
+    if product_type == "curr":
+        for product in products_arr:
+            shoe = {
+                "product_id": product.product_id,
+                "product_name": product.product_name,
+                "product_size": product.product_size,
+                "product_color": product.product_color,
+                "product_sold_price": product.product_sold_price,
+                "product_get_price": product.product_get_price,
+                "product_sold_time": product.product_sold_time,
+            }
+            products.append(shoe)
+    elif product_type == "old":
+        for product in products_arr:
+            print("product.old_product_name =>", product.old_product_name)
+            if product.old_product_name is not None:
+                shoe = {
+                    "product_id": product.product_id,
+                    "product_name": product.old_product_name,
+                    "product_size": product.old_product_size,
+                    "product_color": product.old_product_color,
+                    "product_sold_price": product.old_product_sold_price,
+                    "product_get_price": product.old_product_get_price,
+                    "product_sold_time": product.old_product_sold_time,
+                }
+                products.append(shoe)
+    else:
+        return None
     
     return products
 

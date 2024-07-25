@@ -30,7 +30,9 @@ def update_product_route():
                     updated_sold_price=new_product_sold_price, 
                     updated_get_price=new_product_get_price
                 )
+                print("WORKING 1")
                 db.session.commit()
+                print("WORKING 2")
                 return jsonify({
                     "message": "Poyabzal muvaffaqiyatli almashtirildi va yangilandi"
                 }), 200
